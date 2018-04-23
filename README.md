@@ -1,8 +1,8 @@
-## Weather Finder
+REACT demo
+Author Andrew Ton
+Video demo avail at https://youtu.be/9uYkE7Al0sE
 
-### Weather finder made by [Hamza Mirza's](https://www.youtube.com/watch?v=204C9yNeOYI) tutorials
-
-### Build setup
+Build setup
 
 ```bash
 ## Install dependencies 
