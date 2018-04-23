@@ -1,0 +1,86 @@
+import React from "react";
+
+import Main from './components/Main';
+import ReactionInput from './components/ReactionInput';
+import DrugFound from './components/DrugFound';
+
+const API_KEY = '9875762ba8d721510ededbbcce72151f';
+
+class App extends React.Component {
+	state = {
+		drug1: undefined,
+		drug2: undefined,
+		reaction1: undefined,
+		reaction2: undefined,
+		error: undefined
+	}
+	getWeather = async (e) => {
+		e.preventDefault();
+		const reaction1 = e.target.elements.reaction1.value;
+		const reaction2 = e.target.elements.reaction2.value;
+
+    debugger;
+		//const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${reaction1},${reaction2}&appid=${API_KEY}&units=metric`);
+    const api_call = await fetch(`https://api.fda.gov/drug/event.json?search=patient.reaction.reactionmeddrapt:%22`+reaction1+`%22`);
+    
+		const data = await api_call.json();
+
+    //var x[] = data.results[0].patient.drug;
+    var drugArray = data.results[0].patient.drug;
+    
+    var drug1Found = drugArray[0].activesubstance.activesubstancename;
+    var drug2Found = drugArray[1].activesubstance.activesubstancename;
+    var count = drugArray.length;
+    debugger;
+
+
+
+		if (reaction1 || reaction2) {
+			debugger;
+			this.setState({
+				drug1: drug1Found,
+				drug2: drug2Found
+			});
+		} else {
+			debugger;
+			this.setState({
+				stateDrug1: undefined,
+				stateDrug2: undefined
+			});
+		}
+
+    debugger;
+    
+	}
+	render() {
+		return (
+			<div>
+				<div className="wrapper">
+					<div className="main">
+						<div className="container">
+							<div className="row">
+								<div className="col-xs-5 title-container">
+									<Main />
+								</div>
+								<div className="col-xs-7 form-container">
+                
+                  
+									<ReactionInput getWeather={this.getWeather}/>
+           
+									<DrugFound 
+										stateDrug1={this.state.drug1}
+										stateDrug2={this.state.drug2}
+									/>
+              
+                
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+};	
+
+export default App;
